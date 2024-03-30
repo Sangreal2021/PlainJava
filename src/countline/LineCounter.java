@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,13 +17,16 @@ public class LineCounter {
     // 소스 디렉토리의 경로를 저장할 멤버 변수
     private final String srcDirectory;
 
+    // 제외할 폴더 리스트
+    private final List<String> excludeFolders = Arrays.asList(".idea", ".venv");
+
     public LineCounter(String srcDirectory) {
         // 생성자 매개변수로 받은 경로를 멤버 변수에 할당
         this.srcDirectory = srcDirectory;
     }
 
     public static void main(String[] args) {
-        String srcDirectory = "D:\\Private\\study\\plainjava\\testcode\\src"; // 디렉토리 경로 설정
+        String srcDirectory = "D:\\python_hiw\\pythonProject"; // 디렉토리 경로 설정
         LineCounter counter = new LineCounter(srcDirectory); // LineCounter 인스턴스 생성
         // "D:\\private\\study\\fastcam\\batch-campus\\src\\main"에서 마지막 "\"의 인덱스를 찾으면,
         // 이는 "main" 바로 앞의 "\"를 가리킵니다.
@@ -61,6 +65,7 @@ public class LineCounter {
         // 모든 파일을 리스트로 생성
         List<Path> files = Files.walk(path)     // 주어진 경로에서 시작하여 모든 파일 탐색
                 .filter(Files::isRegularFile)   // 파일인지 확인
+                .filter(this::isValidPath) // isValidPath 메서드를 참조하여 조건을 만족하는 파일만 필터링
                 .collect(Collectors.toList());  // 결과를 리스트로 수집
 
         for (Path file : files) {   // 모든 파일에 대해 반복
@@ -77,5 +82,17 @@ public class LineCounter {
         }
 
         return lineCountByType; // 계산된 파일 종류별 라인 수를 담은 맵을 반환
+    }
+
+    private boolean isValidPath(Path path) {
+
+        String pathStr = path.toString();
+        // 제외할 폴더를 포함하고 있는지 확인
+        for (String folder : excludeFolders) {
+            if (pathStr.contains(folder)) {
+                return false; // 하나라도 포함되어 있으면 false 반환
+            }
+        }
+        return true; // 모든 제외 폴더를 포함하지 않으면 true 반환
     }
 }
