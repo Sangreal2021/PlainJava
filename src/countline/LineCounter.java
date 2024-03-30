@@ -18,7 +18,7 @@ public class LineCounter {
     private final String srcDirectory;
 
     // 제외할 폴더 리스트
-    private final List<String> excludeFolders = Arrays.asList(".idea", ".venv");
+    private final List<String> excludeFolders = Arrays.asList(".idea", ".venv", ".git", "etc");
 
     public LineCounter(String srcDirectory) {
         // 생성자 매개변수로 받은 경로를 멤버 변수에 할당
@@ -26,7 +26,7 @@ public class LineCounter {
     }
 
     public static void main(String[] args) {
-        String srcDirectory = "D:\\python_hiw\\pythonProject"; // 디렉토리 경로 설정
+        String srcDirectory = "D:\\MegaStudy\\python"; // 디렉토리 경로 설정
         LineCounter counter = new LineCounter(srcDirectory); // LineCounter 인스턴스 생성
         // "D:\\private\\study\\fastcam\\batch-campus\\src\\main"에서 마지막 "\"의 인덱스를 찾으면,
         // 이는 "main" 바로 앞의 "\"를 가리킵니다.
