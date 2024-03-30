@@ -85,7 +85,6 @@ public class LineCounter {
     }
 
     private boolean isValidPath(Path path) {
-
         String pathStr = path.toString();
         // 제외할 폴더를 포함하고 있는지 확인
         for (String folder : excludeFolders) {
