@@ -13,8 +13,8 @@ public class RefFileMover {
 
     // 경로 정보를 클래스의 멤버 변수로 선언
     // Paths.get()은 주어진 문자열 경로를 Path 객체로 변환
-    private Path sourceDir = Paths.get("D:\\vagel\\SITE\\유지보수\\790.한국전력\\전사작업\\녹취분류(150시간)\\장정수\\나머지녹취(40h)");
-    private Path destinationDir = Paths.get("D:\\vagel\\SITE\\유지보수\\790.한국전력\\전사작업\\녹취분류(150시간)\\spare\\others_01");
+    private final Path sourceDir = Paths.get("D:\\vagel\\SITE\\유지보수\\790.한국전력\\전사작업\\녹취분류(150시간)\\장정수\\나머지녹취(40h)");
+    private final Path destinationDir = Paths.get("D:\\vagel\\SITE\\유지보수\\790.한국전력\\전사작업\\녹취분류(150시간)\\spare\\others_01");
 
     public static void main(String[] args) {
         RefFileMover fileMover = new RefFileMover();
@@ -53,12 +53,12 @@ public class RefFileMover {
                         Files.move(file, destinationDir.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
                         System.out.println("Moved: " + file.getFileName());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                     }
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 }
