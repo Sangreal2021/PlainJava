@@ -229,5 +229,4 @@ public class Parse {
 		
 		return returnStr;
 	}
-	
 }
