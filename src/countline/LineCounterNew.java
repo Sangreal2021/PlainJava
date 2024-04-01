@@ -1,57 +1,68 @@
 package countline;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
-public class LineCounter {
+public class LineCounterNew {
 
     // 소스 디렉토리의 경로를 저장할 멤버 변수
     private final String srcDirectory;
-
     // 제외할 폴더 리스트
-    private final List<String> excludeFolders = Arrays.asList(".idea", ".venv", ".git", "etc");
-
+    private final List<String> excludeFolders;
     // 제외할 파일 확장자 목록
-    private final List<String> excludeFileExtensions = Arrays.asList(".pdf", ".jpg", ".png");
+    private final List<String> excludeFileExtensions;
 
-    public LineCounter(String srcDirectory) {
-        // 생성자 매개변수로 받은 경로를 멤버 변수에 할당
-        this.srcDirectory = srcDirectory;
+    public LineCounterNew(Properties properties) {
+//        // Properties 객체로부터 설정을 읽어옴
+//        String rawSrcDirectory = properties.getProperty("srcDirectory");
+//        // 경로 내의 모든 단일 역슬래시(\)를 두 개의 역슬래시(\\)로 변경
+//        this.srcDirectory = rawSrcDirectory.replace("\\", "\\\\");
+        // 생성자에서 Properties 객체로부터 설정을 읽어옴
+        this.srcDirectory = properties.getProperty("srcDirectory", "default");
+        this.excludeFolders = Arrays.asList(
+                properties.getProperty("excludeFolders", "").split("\\|"));
+        this.excludeFileExtensions = Arrays.asList(
+                properties.getProperty("excludeFileExtensions", "").split("\\|"));
     }
 
     public static void main(String[] args) {
-        String srcDirectory = "D:\\private\\study\\SQLD"; // 디렉토리 경로 설정
-        LineCounter counter = new LineCounter(srcDirectory); // LineCounter 인스턴스 생성
+        // Properties 객체 생성: 설정 정보를 저장하기 위함
+        Properties properties = new Properties();
 
-        // srcDirectory 에서 마지막 "\"의 인덱스를 찾으면,
-        // 이는 "main" 바로 앞의 "\"를 가리킵니다.
-        String dir = srcDirectory.substring(srcDirectory.lastIndexOf(File.separator) + 1);
+        // LineCounterNew 클래스의 클래스 로더를 통해
+        // 'config/config.properties' 경로의 리소스 스트림을 얻음
+        try (InputStream inputStream = LineCounterNew.class.getClassLoader()
+                .getResourceAsStream("resources/config/config.properties"))
+        {
+            // 설정 파일이 없을 경우 예외 처리
+            if (inputStream == null) {
+                throw new IOException("Configuration file not found");
+            }
+            // Properties 객체에 설정 파일로부터 읽어온 정보 로드
+            properties.load(inputStream);
 
-        try {
-            // 파일 종류별 라인 수 계산
+            // LineCounterNew 인스턴스 생성, 생성자에 Properties 객체 전달
+            LineCounterNew counter = new LineCounterNew(properties);
+            // srcDirectory 문자열에서 마지막 '\\' 문자 뒤의 부분을 추출하여 dir 변수에 저장
+            // 이는 srcDirectory 경로의 마지막 폴더 이름을 얻기 위함임
+            String dir = counter.srcDirectory
+                    .substring(counter.srcDirectory.lastIndexOf(File.separator) + 1);
+            // countLinesByFileType 메서드를 호출하여 파일 종류별 라인 수를 계산, 결과는 Map 객체에 저장
             Map<String, Long> linesByFileType = counter.countLinesByFileType();
-            // 결과 출력
-            linesByFileType.forEach((type, lines) -> System.out.println(type + " files total lines : " + lines));
-
-            // 총 라인 수 계산
-//            long totalLines = linesByFileType.values().stream().mapToLong(n -> n.longValue()).sum();
-            long totalLines = linesByFileType.values().stream().mapToLong(Long::longValue).sum();
-            // 총 라인 수 출력
+            // 계산된 라인 수를 파일 종류별로 출력
+            linesByFileType.forEach((type, lines)
+                    -> System.out.println(type + " files total lines : " + lines));
+            // 전체 라인 수 계산: Map 객체의 values 컬렉션을 스트림으로 변환한 뒤,
+            // Long::longValue 를 통해 long 값으로 매핑하고, 최종적으로 sum 메서드로 모든 값을 합산
+            long totalLines = linesByFileType.values()
+                    .stream().mapToLong(Long::longValue).sum();
             System.out.println("Total lines in '" + dir + "' directory: " + totalLines);
-        } catch (IOException e) { // 입출력 관련 예외 처리
+        } catch (IOException e) {
             System.err.println("Error reading files: " + e.getMessage());
-        } catch (IllegalArgumentException e) { // 경로 관련 예외 처리
-            System.err.println(e.getMessage());
         }
     }
 
