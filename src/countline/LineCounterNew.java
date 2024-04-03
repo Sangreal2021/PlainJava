@@ -47,10 +47,12 @@ public class LineCounterNew {
 
             // LineCounterNew 인스턴스 생성, 생성자에 Properties 객체 전달
             LineCounterNew counter = new LineCounterNew(properties);
+
             // srcDirectory 문자열에서 마지막 '\\' 문자 뒤의 부분을 추출하여 dir 변수에 저장
             // 이는 srcDirectory 경로의 마지막 폴더 이름을 얻기 위함임
 //            String dir = counter.srcDirectory
 //                    .substring(counter.srcDirectory.lastIndexOf(File.separator) + 1);
+
             // countLinesByFileType 메서드를 호출하여 파일 종류별 라인 수를 계산, 결과는 Map 객체에 저장
             Map<String, Long> linesByFileType = counter.countLinesByFileType();
             // 계산된 라인 수를 파일 종류별로 출력
