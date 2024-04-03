@@ -11,12 +11,12 @@ import java.util.List;
 
 public class Parse {
 	// 원본 소스파일 읽어올 경로
-	private final String workspace_path = "D:\\vagel\\SITE\\유지보수\\800.한국전자금융\\통계작업\\20231206";
+	private final String workspace_path = "D:\\private\\study\\MegaStudy\\Study\\deep_study\\source";
 	
 	public static void main(String[] args) {
 		Parse ps = new Parse();
 		// 원본 소스파일 이름
-		ps.exec_run("vsttrest2_2023-12-06");
+		ps.exec_run("vsttrest2_2023-04-21");
 	}
 	
 	// 취합된 로그파일 정보들을 linePrint()를 통해 report.로그파일명.log로 묶어
