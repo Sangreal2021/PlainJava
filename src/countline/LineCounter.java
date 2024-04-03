@@ -35,7 +35,7 @@ public class LineCounter {
 
         // srcDirectory 에서 마지막 "\"의 인덱스를 찾으면,
         // 이는 "main" 바로 앞의 "\"를 가리킵니다.
-        String dir = srcDirectory.substring(srcDirectory.lastIndexOf(File.separator) + 1);
+//        String dir = srcDirectory.substring(srcDirectory.lastIndexOf(File.separator) + 1);
 
         try {
             // 파일 종류별 라인 수 계산
@@ -47,7 +47,7 @@ public class LineCounter {
 //            long totalLines = linesByFileType.values().stream().mapToLong(n -> n.longValue()).sum();
             long totalLines = linesByFileType.values().stream().mapToLong(Long::longValue).sum();
             // 총 라인 수 출력
-            System.out.println("Total lines in '" + dir + "' directory: " + totalLines);
+            System.out.println("Total lines in '" + counter.srcDirectory + "' directory: " + totalLines);
         } catch (IOException e) { // 입출력 관련 예외 처리
             System.err.println("Error reading files: " + e.getMessage());
         } catch (IllegalArgumentException e) { // 경로 관련 예외 처리
