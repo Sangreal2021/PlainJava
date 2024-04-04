@@ -19,8 +19,7 @@ public class ParseNew {
 		ps.exec_run("vsttrest2_2023-04-21");
 	}
 
-	// 취합된 로그파일 정보들을 linePrint()를 통해 report.로그파일명.log로 묶어
-	//	파일 형태로 내보내기
+	// 취합된 로그파일 정보들을 linePrint()를 통해 report.로그파일명.log로 묶어 파일 형태로 내보내기
 	// 매개변수는 실제 파싱할 로그파일명(vsttrest2_2023-04-20)
 	public void exec_run(String logFile) {
 		// 파일 존재 여부를 먼저 확인
