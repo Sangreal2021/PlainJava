@@ -35,13 +35,7 @@ public class ParseNew {
 		String printStr = createTextLog(lines);
 
 		// 출력할 파일 이름
-//		boolean result = linePrint("report." + logFile, printStr);
 		linePrint("report." + logFile, printStr);
-
-//		if (!result) {
-//			// 이 부분은 이제 필요 없지만 로직 변경을 최소화하기 위해 남겨둠
-//			System.err.println("Unexpected Error: File handling error occurred.");
-//		}
 	}
 
 	// 원본 로그 파일을 읽어와서 지정한 workspace_path 폴더 아래 뿌려주는 메소드
