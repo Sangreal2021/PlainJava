@@ -9,53 +9,48 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Parse {
+public class ParseNew {
 	// 원본 소스파일 읽어올 경로
 	private final String workspace_path = "D:\\private\\study\\MegaStudy\\Study\\deep_study\\source";
-	
+
 	public static void main(String[] args) {
-		Parse ps = new Parse();
+		ParseNew ps = new ParseNew();
 		// 원본 소스파일 이름
 		ps.exec_run("vsttrest2_2023-04-21");
 	}
-	
+
 	// 취합된 로그파일 정보들을 linePrint()를 통해 report.로그파일명.log로 묶어
 	//	파일 형태로 내보내기
 	// 매개변수는 실제 파싱할 로그파일명(vsttrest2_2023-04-20)
 	public void exec_run(String logFile) {
+		// 파일 존재 여부를 먼저 확인
+		File file = new File(this.workspace_path + "\\" + "report." + logFile + ".txt");
+		if (file.exists()) {
+			// 파일이 이미 존재하는 경우 에러 메시지 출력 및 프로그램 중지
+			System.err.println("Error: File <report." + logFile + ".txt> already exists. Execution stopped.");
+			return; // 프로그램 종료 또는 추가적인 처리
+		}
+
 		List<String> lines = getBaseDataKeyList(this.workspace_path, logFile + ".log");
-		String printStr = "";
-		
-		printStr += createTextLog(lines);
+		String printStr = createTextLog(lines);
+
 		// 출력할 파일 이름
+//		boolean result = linePrint("report." + logFile, printStr);
 		linePrint("report." + logFile, printStr);
+
+//		if (!result) {
+//			// 이 부분은 이제 필요 없지만 로직 변경을 최소화하기 위해 남겨둠
+//			System.err.println("Unexpected Error: File handling error occurred.");
+//		}
 	}
-	
+
 	// 원본 로그 파일을 읽어와서 지정한 workspace_path 폴더 아래 뿌려주는 메소드
-	public void linePrint(String category, String outputStr) {
+	public boolean linePrint(String category, String outputStr) {
 		File file = new File(this.workspace_path + "\\" + category + ".txt");
 
-//		// 파일 쓰는 변수 생성
-//		FileWriter writer = null;
-//
-//		try {
-//			writer = new FileWriter(file, true);
-//			writer.write(outputStr);
-//			writer.flush();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if(writer!=null) { writer.close(); }
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-
-		// 파일이 이미 존재하는 경우 실행 중지 및 에러 메시지 출력
+		// 파일이 이미 존재하는 경우 실행 중지 및 false 반환
 		if(file.exists()) {
-			System.err.println("Error: File " + file.getName() + " already exists. Execution stopped.");
-			return; // 메서드 종료
+			return false;
 		}
 
 		try (FileWriter writer = new FileWriter(file, true)) {
@@ -63,6 +58,7 @@ public class Parse {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return true; // 파일 생성 또는 추가가 성공적으로 이루어진 경우 true 반환
 	}
 	
 	public List<String> getBaseDataKeyList(String fpath, String fname){

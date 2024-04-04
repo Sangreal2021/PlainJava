@@ -30,7 +30,7 @@ public class LineCounter {
     }
 
     public static void main(String[] args) {
-        String srcDirectory = "D:\\MegaStudy\\SQLD"; // 디렉토리 경로 설정
+        String srcDirectory = "D:\\private\\study\\SQLD"; // 디렉토리 경로 설정
         LineCounter counter = new LineCounter(srcDirectory); // LineCounter 인스턴스 생성
 
         // srcDirectory 에서 마지막 "\"의 인덱스를 찾으면,
