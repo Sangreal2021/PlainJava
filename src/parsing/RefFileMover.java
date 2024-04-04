@@ -32,23 +32,23 @@ public class RefFileMover {
                 // if 문을 사용하여 카운터 값이 num의 배수일 때마다 파일을 이동시킴
                 // count[0] % num은 카운터 값을 num으로 나눈 나머지를 계산하고, == 1은 매 num번째 파일을 선택
                 if (count[0] % num == 1) {
-                /*  1. file:
-                		이것은 이동시키고자 하는 소스 파일의 Path 객체입니다.
-                		Files.list 메서드로부터 얻은 파일 목록에서 현재 처리 중인 파일을 나타냅니다.
+                    /*  1. file:
+                            이것은 이동시키고자 하는 소스 파일의 Path 객체입니다.
+                            Files.list 메서드로부터 얻은 파일 목록에서 현재 처리 중인 파일을 나타냅니다.
 
-                	2. destinationDir.resolve(file.getFileName()):
-                		destinationDir은 대상 디렉터리의 Path 객체입니다.
-                		resolve 메서드는 주어진 Path 객체(여기서는 destinationDir)에
-                		다른 Path 객체(여기서는 file.getFileName())를 결합하여 새로운 Path 객체를 생성합니다.
-                		이는 기본적으로 대상 디렉터리 경로에 파일 이름을 추가하는 것과 같습니다.
-                		file.getFileName()는 현재 처리 중인 파일의 이름만을 반환합니다.
-                		따라서, 이 코드는 소스 파일을 대상 디렉터리로 이동시키되, 파일 이름은 유지합니다.
+                        2. destinationDir.resolve(file.getFileName()):
+                            destinationDir은 대상 디렉터리의 Path 객체입니다.
+                            resolve 메서드는 주어진 Path 객체(여기서는 destinationDir)에
+                            다른 Path 객체(여기서는 file.getFileName())를 결합하여 새로운 Path 객체를 생성합니다.
+                            이는 기본적으로 대상 디렉터리 경로에 파일 이름을 추가하는 것과 같습니다.
+                            file.getFileName()는 현재 처리 중인 파일의 이름만을 반환합니다.
+                            따라서, 이 코드는 소스 파일을 대상 디렉터리로 이동시키되, 파일 이름은 유지합니다.
 
-                	3. StandardCopyOption.REPLACE_EXISTING:
-                		이것은 Files.move 메서드에 전달되는 옵션 중 하나로, 만약 대상 위치에
-                		같은 이름의 파일이 이미 존재한다면, 그 파일을 대체하라는 지시입니다.
-                		REPLACE_EXISTING 옵션을 사용하지 않으면, 동일한 이름의 파일이 대상 디렉터리에
-                		이미 존재하는 경우 FileAlreadyExistsException 예외가 발생합니다.    */
+                        3. StandardCopyOption.REPLACE_EXISTING:
+                            이것은 Files.move 메서드에 전달되는 옵션 중 하나로, 만약 대상 위치에
+                            같은 이름의 파일이 이미 존재한다면, 그 파일을 대체하라는 지시입니다.
+                            REPLACE_EXISTING 옵션을 사용하지 않으면, 동일한 이름의 파일이 대상 디렉터리에
+                            이미 존재하는 경우 FileAlreadyExistsException 예외가 발생합니다.    */
                     try {
                         Files.move(file, destinationDir.resolve(file.getFileName()), StandardCopyOption.REPLACE_EXISTING);
                         System.out.println("Moved: " + file.getFileName());
