@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ParseNew {
 	// 원본 소스파일 읽어올 경로
-	private final String workspace_path = "D:\\MegaStudy\\Study\\deep_study\\source";
+	private final String workspace_path = "D:\\etc\\plainjava\\unix";
 
 	public static void main(String[] args) {
 		ParseNew ps = new ParseNew();

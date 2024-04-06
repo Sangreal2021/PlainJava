@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Parse {
 	// 원본 소스파일 읽어올 경로
-	private final String workspace_path = "D:\\private\\study\\MegaStudy\\Study\\deep_study\\source";
+	private final String workspace_path = "D:\\etc\\plainjava\\unix";
 	
 	public static void main(String[] args) {
 		Parse ps = new Parse();
