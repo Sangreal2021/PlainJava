@@ -16,6 +16,9 @@ public class ParseNew {
 	private final String workspace_path = "/app/target";
 
 	public static void main(String[] args) {
+		// 시스템의 파일 인코딩을 UTF-8로 설정
+		System.setProperty("file.encoding", "UTF-8");
+
 		ParseNew ps = new ParseNew();
 		// 원본 소스파일 이름
 		ps.exec_run("vsttrest2_2023-04-21");
