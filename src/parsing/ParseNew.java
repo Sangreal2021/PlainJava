@@ -10,8 +10,11 @@ import java.util.List;
 public class ParseNew {
 	// 원본 소스파일 읽어올 경로
 	private final String workspace_path = "D:\\etc\\plainjava\\unix";
+	private final String destspace_path = "D:\\etc\\plainjava\\unix\\dest";
 
 	public static void main(String[] args) {
+		// 시스템의 파일 인코딩을 UTF-8로 설정
+		System.setProperty("file.encoding", "UTF-8");
 		ParseNew ps = new ParseNew();
 		// 원본 소스파일 이름
 		ps.exec_run("vsttrest2_2023-04-21");
@@ -20,8 +23,14 @@ public class ParseNew {
 	// 취합된 로그파일 정보들을 linePrint()를 통해 report.로그파일명.log로 묶어 파일 형태로 내보내기
 	// 매개변수는 실제 파싱할 로그파일명(vsttrest2_2023-04-20)
 	public void exec_run(String logFile) {
-		// 파일 존재 여부를 먼저 확인
-		File file = new File(this.workspace_path + "\\" + "report." + logFile + ".txt");
+		// dest 폴더가 없으면 생성
+		File destDir = new File(this.destspace_path);
+		if (!destDir.exists()) {
+			destDir.mkdir();	// dest 폴더 생성
+		}
+
+		// dest 폴더 내 파일 존재 여부를 먼저 확인
+		File file = new File(this.destspace_path + "\\" + "report." + logFile + ".txt");
 		if (file.exists()) {
 			// 파일이 이미 존재하는 경우 에러 메시지 출력 및 프로그램 중지
 			System.err.println("Error: File <report." + logFile + ".txt> already exists. Execution stopped.");
@@ -31,13 +40,13 @@ public class ParseNew {
 		List<String> lines = getBaseDataKeyList(this.workspace_path, logFile + ".log");
 		String printStr = createTextLog(lines);
 
-		// 출력할 파일 이름
+		// 출력할 파일을 dest 폴더에 저장
 		linePrint("report." + logFile, printStr);
 	}
 
-	// 원본 로그 파일을 읽어와서 지정한 workspace_path 폴더 아래 뿌려주는 메소드
+	// 원본 로그 파일을 읽어와서 지정한 destspace_path 폴더 아래 뿌려주는 메소드
 	public void linePrint(String category, String outputStr) {
-		File file = new File(this.workspace_path + "\\" + category + ".txt");
+		File file = new File(this.destspace_path + "\\" + category + ".txt");
 
 		// 파일이 이미 존재하는 경우 실행 중지 및 false 반환
 		if(file.exists()) {
