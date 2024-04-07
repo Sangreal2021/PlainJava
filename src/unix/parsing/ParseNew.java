@@ -211,9 +211,8 @@ public class ParseNew {
 
 	// 위의 정보들을 취합해서 로그파일 생성
 	public String createTextLog(List<String> lines) {
-
 		// 열 제목 추가
-		String columnTitles = "채널\t시작시간\t종료시간\t전화번호\tSTT_CD\tREC_CD\tSTT결과\t\tREC_KEY\t파일명";
+		String columnTitles = "채널\t시작시간\t종료시간\t전화번호\tSTT_CD\tREC_CD\tSTT_결과\t\tREC_KEY\t파일명";
 		String returnStr = columnTitles + "\n";  // 첫 줄에 열 제목을 추가하고, 다음 줄로 넘어갑니다.
 		int indexI = 0;
 		int chNUM = 0;
