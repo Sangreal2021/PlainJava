@@ -55,24 +55,21 @@ public class CharLeft {
         int totalBytes = 0;
 
         for (int index = 0; index < bytes.length; ) {
-            int byteLength = 1;
-            if ((bytes[index] & 0x80) == 0) { // 1-byte character (ASCII)
-                byteLength = 1;
-            } else if ((bytes[index] & 0xE0) == 0xC0) { // 2-byte character
-                byteLength = 2;
-            } else if ((bytes[index] & 0xF0) == 0xE0) { // 3-byte character
-                byteLength = 3;
-            } else if ((bytes[index] & 0xF8) == 0xF0) { // 4-byte character (less common in EUC-KR but for UTF-8)
-                byteLength = 4;
-            }
-
-            // Ensure not to exceed the byte array length
-            if (index + byteLength > bytes.length) {
-                break; // Prevents StringIndexOutOfBoundsException
+            int byteLength;
+            if ((bytes[index] & 0x80) == 0) {
+                byteLength = 1;  // ASCII (1-byte)
+            } else if ((bytes[index] & 0xE0) == 0xC0) {
+                byteLength = 2;  // 2-byte character (could be EUC-KR or UTF-8 continuation)
+            } else if ((bytes[index] & 0xF0) == 0xE0) {
+                byteLength = 3;  // UTF-8 (3-byte)
+            } else if ((bytes[index] & 0xF8) == 0xF0) {
+                byteLength = 4;  // UTF-8 (4-byte)
+            } else {
+                byteLength = 2;  // Assume EUC-KR (2-byte) for cases not explicitly handled
             }
 
             if (totalBytes + byteLength > maxBytes) {
-                break;
+                break;  // Ensures we don't exceed maxBytes
             }
             totalBytes += byteLength;
             index += byteLength;
@@ -80,4 +77,5 @@ public class CharLeft {
 
         return new String(bytes, 0, totalBytes, charset);
     }
+
 }
