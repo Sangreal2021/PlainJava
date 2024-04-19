@@ -25,9 +25,14 @@ public class CharLeft {
             long endTime = System.nanoTime(); // 종료 시간 측정
             long duration = endTime - startTime; // 실행 시간 계산
 
+            // 바이트 크기와 결과 출력
+            int byteCount = value.getBytes(charSet).length;
+            System.out.println("Charset: " + charSet);
+            System.out.println("Byte size of input string: " + byteCount + " bytes");
             System.out.println("Result: " + result);
-            System.out.println("Execution time : " + duration + " nanoSec");
-            System.out.println("Execution time : " + duration / 1000000 + " milliSec");
+            System.out.println("Execution time: " + duration + " nanoSec");
+            System.out.println("Execution time: " + duration / 1000000 + " milliSec");
+            System.out.println(); // 공백 줄로 구분
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -77,5 +82,4 @@ public class CharLeft {
 
         return new String(bytes, 0, totalBytes, charset);
     }
-
 }
